@@ -53,9 +53,28 @@ const result = document.getElementById("formResult");
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
-
-  const name = usernameInput.value;
+  const name = usernameInput.value.trim();
   const age = ageInput.value;
-
   result.textContent = `Имя: ${name}, Возраст: ${age}`;
+
+  if (name === "") {
+    result.textContent = "Ошибка: имя не может быть пустым!";
+    result.style.color = "red";
+    usernameInput.focus();
+    return;
+  }
+
+  if (isNaN(age) || age <= 0 || age > 120) {
+    result.textContent = "Ошибка: Введите корректный возраст (от 1 до 120)!";
+    result.style.color = "red";
+    ageInput.focus();
+    ageInput.value = "";
+    return;
+  }
+
+  formResult.textContent = `✅ Имя: ${name}, Возраст: ${ageNumber} лет. Форма успешно отправлена!`;
+  formResult.style.color = "green";
+
+  form.reset();
+  usernameInput.focus();
 });
